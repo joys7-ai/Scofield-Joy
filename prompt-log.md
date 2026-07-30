@@ -89,3 +89,28 @@ option premiums ($0.019 put / $0.024 call).
   1 year, and added the put premium to the options trade-off.
 - **My edit:** Made sure the tone was like me and committed it to the memo.
 **Deliverable:** `docs/decisions/2026-07-30-Scofield-aerospace-hedge-framing.md`
+
+---
+ 
+## Stage 2 — Model Specification
+ 
+**Date:** 2026-07-30
+ 
+**Prompt 1:** Asked for a full technical spec draft from the Stage 1 memo + scenario, before providing the actual course template — following a generic 8-section structure.
+- **AI output:** First draft used the assignment page's described 8 sections, but carried over the Stage 1 memo's phrasing that the receivable was "$20,000,000, USD-denominated," setting `FC_AMT` in USD.
+- **Gap found:** This is inconsistent with the named-range contract, which defines `FC_AMT` as a EUR-denominated foreign-currency amount — if the receivable were already in USD, there'd be no FX exposure to specify a hedge for.
+- **Fix:** Corrected `FC_AMT` to EUR 20,000,000 throughout the problem statement, inputs table, and calculation flow.
+
+**Prompt 2:** Provided the actual course template (template-spec.md, UH Mānoa-branded, with named-range conventions, a §6 self-review section, and brand formatting standards).
+- **Gap found:** My first spec draft used a simplified structure that didn't match the course's actual named-range conventions (missing derived-value definitions like DF_USD/DF_FC/FV_PREM_PUT), the §6 self-review section, or the brand formatting appendix.
+- **Fix:** Rebuilt the spec section-by-section against the real template, initially splitting the day-count basis into `BASIS_USD` (360) and `BASIS_FC` (365) per the template's "rigorous variant" suggestion.
+
+**Prompt 3:** Pasted the assignment page's literal money-market formula (`R_FC × T_DAYS/360`, `R_USD × T_DAYS/360`).
+- **Gap found:** My spec's `BASIS_USD`/`BASIS_FC` split contradicted the assignment page itself, which specifies a single `/360` for both legs.
+- **Fix:** Reverted to one shared `BASIS = 360` named range, updated the affected formulas (DF_FC, Step 1, Step 3) and base-case output figures, and moved the USD/EUR day-count split into §6.2 as a considered-but-not-adopted improvement rather than baseline behavior.
+  
+**Prompt 4:** Uploaded the actual template-spec.md file to confirm it matched what had been used, and asked to add Appendix B (brand formatting standards) and the brand footer, which were still missing from the file.
+- **AI output:** Confirmed the uploaded template matched exactly, then added the full Appendix B (color palette, typography, workbook color coding, chart styling, accessibility rules, file-naming conventions) and the brand footer block to the spec.
+- **My edit:** N/A
+  
+**Deliverable:** `docs/specs/2026-07-30-Scofield-aerospace-spec.md`
