@@ -114,3 +114,22 @@ option premiums ($0.019 put / $0.024 call).
 - **My edit:** N/A
   
 **Deliverable:** `docs/specs/2026-07-30-Scofield-aerospace-spec.md`
+
+## Stage 3 — AI-Assisted Build + Audit
+
+**Date:** 2026-07-30
+
+**Prompt 1:** Asked for the workbook to be generated directly from the committed Stage 2 spec, following the Stage 3 build contract (all ten named ranges, formulas-only, Cover/Legend/Inputs/hedge tabs/Sensitivity/Notes, color convention, live validation checks).
+- **AI output:** Built the full workbook via `openpyxl` — 8 tabs, all named ranges attached, sensitivity grid + chart, parity check.
+- **Gap found (self-caught during build):** Initial recalc returned 3 `#N/A` errors — three annotation cells (meant as plain-text formula notes) had been written starting with a literal `=`, so LibreOffice tried to evaluate them as real formulas.
+- **Fix:** Rewrote the annotation cells to avoid a leading `=`. Recalc returned 0 errors across 161 formulas.
+
+**Prompt 2:** Asked to verify key computed values against hand calculations before treating the build as final.
+- **Gap found:** `USD_FLOOR_PUT` on the Sensitivity tab referenced `Options!D17` (a blank cell) instead of `Options!D18` (where the actual `MIN()` formula lived) — an off-by-one error from placing the summary label two rows below the grid instead of one. This silently showed $0 instead of the real floor value, with no error flag.
+- **Fix:** Corrected the reference to `Options!D18`; verified `USD_FLOOR_PUT` now shows $22,658,014, matching the put proceeds at $S_T \le K\_PUT$.
+
+**Prompt 3:** Asked for the required audit note (≥3 documented findings) per the Stage 3 submission checklist.
+- **AI output:** Documented 4 findings: the off-by-one reference bug, the annotation-cell parsing error, the parity-check gap (confirmed as an expected consequence of the course-assigned `F0_in`, not a build error), and a passing kink-verification check.
+- **My edit:** I manually went through and made sure my sheets looked good and tried my best to verify it.
+
+**Deliverables:** `models/builds/2026-08-05-Scofield-aerospace-model.xlsx`, `analysis/2026-08-05-Scofield-build-audit.md`
