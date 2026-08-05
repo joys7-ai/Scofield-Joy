@@ -133,3 +133,8 @@ option premiums ($0.019 put / $0.024 call).
 - **My edit:** I manually went through and made sure my sheets looked good and tried my best to verify it.
 
 **Deliverables:** `models/builds/2026-08-05-Scofield-aerospace-model.xlsx`, `analysis/2026-08-05-Scofield-build-audit.md`
+
+**Prompt 4:** Provided a second screenshot with the correct live inputs entered.
+- **AI output:** Confirmed an exact match — Forward ($23,380,000), Money Market ($23,379,769), and implied forward (1.1690) all matched the workbook precisely; recorded the result in the memo's §5, along with a documented (not erroneous) convention difference on the Options tab premium timing (Lab uses simple premium, workbook future-values it per the Stage 2 template).
+- **My edit:** N/A — cross-check passed as-is.
+**Deliverable:** `data/2026-08-05-Scofield-market-data.md`; workbook re-committed with live data
